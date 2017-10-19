@@ -2,12 +2,29 @@
 
 <p>
   <strong>User:</strong>
-  <%= @profile.user %>
+  <%= @profile.user.email %>
 </p>
 
 <p>
   <strong>First name:</strong>
   <%= @profile.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @profile.last_name %>
+</p>
+
+<p>
+  <strong>Your preferred exercise:</strong>
+  <%= @activity.name %>
+  <small><%= link_to 'Change', edit_activity_url %></small>
+</p>
+
+<p>
+  <strong>Your current skill level:</strong>
+  <%= @activity.skill_level%>
+  <small><%= link_to 'Update', edit_activity_url %></small>
 </p>
 
 <p>

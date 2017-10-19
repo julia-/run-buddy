@@ -12,21 +12,17 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :activity_name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :profile_id %>
-    <%= form.text_field :profile_id, id: :activity_profile_id %>
+    <%= form.label :name, 'Preferred exercise type' %>
+    <%= form.select :name, options_for_select(["Walking", "Hiking", "Jogging", "Running", "Sprinting", "Long Distance", "Pram"], selected: @activity.name), id: :activity_name %>
   </div>
 
   <div class="field">
     <%= form.label :skill_level %>
-    <%= form.text_field :skill_level, id: :activity_skill_level %>
+    <%= form.select :skill_level, options_for_select(["Beginner", "Intermediate", "Advanced", "Expert"], selected: @activity.skill_level), id: :activity_skill_level %>
   </div>
-
+  
   <div class="actions">
     <%= form.submit %>
   </div>
+  
 <% end %>
