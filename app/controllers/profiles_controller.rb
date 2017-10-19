@@ -2,15 +2,11 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
-
-  # GET /profiles
-  # GET /profiles.json
   def index
     @profiles = Profile.all
+    @search_profiles_by_postcode = Profile.search(params[:location])
   end
 
-  # GET /profiles/1
-  # GET /profiles/1.json
   def show
     if current_user.present?
       @active_conversation = Conversation.find_by(profile_a_id: current_user.id, profile_b_id: @profile.user_id)
@@ -19,18 +15,14 @@ class ProfilesController < ApplicationController
     # @activity = Activity.find(@profile.id)
   end
 
-  # GET /profiles/new
   def new
     @profile = Profile.new
     @activity = @profile.activities.build
   end
 
-  # GET /profiles/1/edit
   def edit
   end
 
-  # POST /profiles
-  # POST /profiles.json
   def create
     @profile = Profile.new(profile_params)
     @profile.user_id = current_user.id
@@ -46,8 +38,6 @@ class ProfilesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /profiles/1
-  # PATCH/PUT /profiles/1.json
   def update
     respond_to do |format|
       if @profile.update(profile_params)
@@ -60,8 +50,6 @@ class ProfilesController < ApplicationController
     end
   end
 
-  # DELETE /profiles/1
-  # DELETE /profiles/1.json
   def destroy
     @profile.destroy
     respond_to do |format|
@@ -78,6 +66,6 @@ class ProfilesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def profile_params
-      params.require(:profile).permit(:user_id, :first_name, :last_name, :postcode, :profile_photo, :bio, :contact_number, :remove_profile_photo, activities_attributes: [:name, :skill_level])
+      params.require(:profile).permit(:user_id, :first_name, :last_name, :postcode, :profile_photo, :bio, :contact_number, :remove_profile_photo, :location, activities_attributes: [:name, :skill_level])
     end
 end
