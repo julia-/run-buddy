@@ -20,10 +20,9 @@
   <%= @profile.postcode %>
 </p>
 
-<p>
-  <strong>Profile photo data:</strong>
-  <%= @profile.profile_photo_data %>
-</p>
+<figure>
+  <%= image_tag @profile.profile_photo_url(:original) %>
+</figure>
 
 <p>
   <strong>Bio:</strong>

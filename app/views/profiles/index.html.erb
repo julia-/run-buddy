@@ -9,7 +9,7 @@
       <th>First name</th>
       <th>Last name</th>
       <th>Postcode</th>
-      <th>Profile photo data</th>
+      <th>Profile</th>
       <th>Bio</th>
       <th>Contact number</th>
       <th colspan="3"></th>
@@ -23,7 +23,7 @@
         <td><%= profile.first_name %></td>
         <td><%= profile.last_name %></td>
         <td><%= profile.postcode %></td>
-        <td><%= profile.profile_photo_data %></td>
+        <td><%= image_tag profile.profile_photo_url(:thumb) %></td>
         <td><%= profile.bio %></td>
         <td><%= profile.contact_number %></td>
         <td><%= link_to 'Show', profile %></td>
