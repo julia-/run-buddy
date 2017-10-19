@@ -1,11 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 <h2>Buddies</h2>
-<%= render @profiles %>
 
-<%= form_tag(profiles_path method: :get) do %>
-  <%= text_field_tag :location, params[:location] %>
-  <%= submit_tag 'Search', name: nil %>
+<h3>Find buddies in your area</h3>
+<%= form_with url: profiles_path, local: true, method: :get do |f| %>
+  <%= f.label :query, 'Search by postcode' %>
+  <%= f.text_field :query %>
+  <%= f.submit 'Search' %>
 <% end %>
 
 <%= render @search_profiles_by_postcode %>

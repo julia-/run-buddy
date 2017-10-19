@@ -4,7 +4,7 @@ class ProfilesController < ApplicationController
 
   def index
     @profiles = Profile.all
-    @search_profiles_by_postcode = Profile.search(params[:location])
+    @search_profiles_by_postcode = Profile.search(params[:query])
   end
 
   def show
@@ -66,6 +66,6 @@ class ProfilesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def profile_params
-      params.require(:profile).permit(:user_id, :first_name, :last_name, :postcode, :profile_photo, :bio, :contact_number, :remove_profile_photo, :location, activities_attributes: [:name, :skill_level])
+      params.require(:profile).permit(:user_id, :first_name, :last_name, :postcode, :profile_photo, :bio, :contact_number, :remove_profile_photo, :query, activities_attributes: [:name, :skill_level])
     end
 end
