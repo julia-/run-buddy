@@ -2,8 +2,14 @@ Rails.application.routes.draw do
   root 'profiles#index'
 
   devise_for :users
-  resources :messages
-  resources :conversations
+
   resources :activities
-  resources :profiles
+  
+  resources :profiles do
+    resources :conversations
+  end
+
+  resources :conversations do
+    resources :messages
+  end
 end
