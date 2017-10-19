@@ -3,28 +3,22 @@ class MessagesController < ApplicationController
   before_action :set_message, only: [:show, :edit, :update, :destroy]
   before_action :set_conversation, only: [:index, :create]
 
-  # GET /messages
-  # GET /messages.json
   def index
     @conversation_messages = Message.where(conversation_id: @conversation.id)
+
+    @message = Message.new
   end
 
-  # GET /messages/1
-  # GET /messages/1.json
   def show
   end
 
-  # GET /messages/new
   def new
     @message = Message.new
   end
 
-  # GET /messages/1/edit
   def edit
   end
 
-  # POST /messages
-  # POST /messages.json
   def create
     @message = Message.new(message_params)
     @message.conversation_id = @conversation.id
