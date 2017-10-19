@@ -2,14 +2,24 @@
 <% @conversation_messages.each do |message| %>
   <div>
     <% if message.from_profile_a %>
-      <% if message.conversation.profile_a == current_user %>
-        <p><%= message.conversation.profile_a.first_name %>(you)</p>
+      <% if message.conversation.profile_a.user_id == current_user.id %>
+        <div>
+          <figure>
+            <%= image_tag message.conversation.profile_a.profile_photo_url(:thumb) %>
+          </figure>
+          <p><%= message.conversation.profile_a.first_name %>(you)</p>
+        </div>
       <% else %>
         <p><%= message.conversation.profile_a.first_name %></p>
       <% end %>
     <% else %>
-      <% if message.conversation.profile_b == current_user %>
-        <p><%= message.conversation.profile_b.first_name %> (you)</p>
+      <% if message.conversation.profile_b.user_id == current_user.id %>
+        <div>
+          <figure>
+            <%= image_tag message.conversation.profile_b.profile_photo_url(:thumb) %>
+          </figure>
+          <p><%= message.conversation.profile_b.first_name %> (you)</p>
+        </div>
       <% else %>
         <p><%= message.conversation.profile_b.first_name %></p>
       <% end %>
@@ -18,4 +28,10 @@
   </div>
 <% end %>
 
-<%= link_to 'New', new_conversation_message_path %>
+<%= render 'form' %>
+
+<% if current_user.id == @conversation.profile_b.user_id %>
+  <%= link_to 'Back to inbox', profile_conversations_path(@conversation.profile_b) %>
+<% else %>
+  <%= link_to "Back to #{@conversation.profile_b.first_name}'s profile", profile_path(@conversation.profile_b) %>
+<% end %>
