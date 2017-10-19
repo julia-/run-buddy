@@ -1,66 +1,55 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>User:</strong>
-  <%= @profile.user.email %>
-</p>
+<section>
+  <h2><%= @profile.first_name %> <%= @profile.last_name %></h2>
+  <figure>
+    <%= image_tag @profile.profile_photo_url(:original) %>
+  </figure>
+</section>
 
-<p>
-  <strong>First name:</strong>
-  <%= @profile.first_name %>
-</p>
-
-<p>
-  <strong>Last name:</strong>
-  <%= @profile.last_name %>
-</p>
-
-<h3>Activities</h3>
-<% @profile.activities.each do |activity| %>
-  <div>
-    <p><strong>Exercise:</strong> <%= activity.name %></p>
-    <p><strong>Level:</strong> <%= activity.skill_level %></p>
-    <%= link_to 'Update', edit_activity_url %>
-  </div>
-<% end %>
-
-<p>
-  <strong>Last name:</strong>
-  <%= @profile.last_name %>
-</p>
-
-<p>
-  <strong>Postcode:</strong>
-  <%= @profile.postcode %>
-</p>
-
-<figure>
-  <%= image_tag @profile.profile_photo_url(:original) %>
-</figure>
-
-<p>
-  <strong>Bio:</strong>
-  <%= @profile.bio %>
-</p>
-
-<p>
-  <strong>Contact number:</strong>
-  <%= @profile.contact_number %>
-</p>
-
-<% if user_signed_in? %>
+<section>
+  <h3>About me</h3>
+  <p>
+    <%= simple_format(@profile.bio) %>
+  </p>
+  <p>
+    <strong>Location</strong> <%= @profile.postcode %>
+  </p>
   <% if current_user.id == @profile.user_id %>
-    <%= link_to 'View Conversations', profile_conversations_path(@profile) %> |
+    <p>
+      <strong>Contact number</strong> <%= @profile.contact_number %> <small><em>only you can see this</em></small>
+    </p>
+  <% end %>
+</section>
+
+<section>
+  <h3>Activities</h3>
+  <% @profile.activities.each do |activity| %>
+    <div>
+      <p>
+        <%= activity.name %> | <%= activity.skill_level %>
+      </p>
+      <% if current_user.id == @profile.user_id %>
+        <%= link_to 'Update', edit_activity_path(activity) %>
+      <% end %>
+    </div>
+  <% end %>
+  <%# if current_user.id == @profile.user_id %>
+    <%#= link_to 'New Activity', new_activity_path %>
+  <%# end %>
+</section>
+
+<% if current_user.id == @profile.user_id %>
+  <%= link_to 'View Conversations', profile_conversations_path(@profile) %> |
+  <%= link_to 'Edit', edit_profile_path(@profile) %> |
+<% else %>
+  <% if @active_conversation %>
+    <!-- If there is an existing conversation, display link to send a message to the host -->
+    <%= link_to "Contact #{@profile.first_name}", new_conversation_message_path(@active_conversation) %> |
   <% else %>
-    <% if @active_conversation %>
-      <!-- If there is an existing conversation, display link to send a message to the host -->
-      <%= link_to "Contact #{@profile.first_name}", new_conversation_message_path(@active_conversation) %> |
-    <% else %>
-      <!-- Otherwise display button to start a conversation with the host -->
-      <%= render partial: 'new_conversation' %>
-    <% end %>
+    <!-- Otherwise display button to start a conversation with the host -->
+    <%= render partial: 'new_conversation' %>
   <% end %>
 <% end %>
 
-<%= link_to 'Edit', edit_profile_path(@profile) %> |
 <%= link_to 'Back', profiles_path %>
