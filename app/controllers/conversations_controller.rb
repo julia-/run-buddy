@@ -1,58 +1,32 @@
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  # GET /conversations
-  # GET /conversations.json
+  before_action :set_conversation, only: [:show]
+  before_action :set_profile, only: [:index, :create]
+
   def index
-    @conversations = Conversation.all
+    @conversations = Conversation.where(profile_b: @profile.user_id)
   end
 
-  # GET /conversations/1
-  # GET /conversations/1.json
   def show
+    @messages = Message.where(conversation_id: @conversation)
   end
 
-  # GET /conversations/new
-  def new
-    @conversation = Conversation.new
-  end
-
-  # GET /conversations/1/edit
-  def edit
-  end
-
-  # POST /conversations
-  # POST /conversations.json
   def create
-    @conversation = Conversation.new(conversation_params)
+    @conversation = Conversation.new
+    @conversation.profile_a_id = current_user.id
+    @conversation.profile_b_id = @profile.user_id
 
     respond_to do |format|
       if @conversation.save
-        format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
+        format.html { redirect_to new_conversation_message_path(@conversation), notice: 'Conversation was successfully started.' }
         format.json { render :show, status: :created, location: @conversation }
       else
-        format.html { render :new }
+        format.html { render profile_path(@profile) }
         format.json { render json: @conversation.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /conversations/1
-  # PATCH/PUT /conversations/1.json
-  def update
-    respond_to do |format|
-      if @conversation.update(conversation_params)
-        format.html { redirect_to @conversation, notice: 'Conversation was successfully updated.' }
-        format.json { render :show, status: :ok, location: @conversation }
-      else
-        format.html { render :edit }
-        format.json { render json: @conversation.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /conversations/1
-  # DELETE /conversations/1.json
   def destroy
     @conversation.destroy
     respond_to do |format|
@@ -65,6 +39,10 @@ class ConversationsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_conversation
       @conversation = Conversation.find(params[:id])
+    end
+
+    def set_profile
+      @profile = Profile.find(params[:profile_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

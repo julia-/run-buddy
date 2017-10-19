@@ -1,31 +1,37 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Messages</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Conversation</th>
-      <th>Content</th>
-      <th>From profile a</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @messages.each do |message| %>
-      <tr>
-        <td><%= message.conversation %></td>
-        <td><%= message.content %></td>
-        <td><%= message.from_profile_a %></td>
-        <td><%= link_to 'Show', message %></td>
-        <td><%= link_to 'Edit', edit_message_path(message) %></td>
-        <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<% @conversation_messages.each do |message| %>
+  <div>
+    <% if message.from_profile_a %>
+      <% if message.conversation.profile_a.user_id == current_user.id %>
+        <div>
+          <figure>
+            <%= image_tag message.conversation.profile_a.profile_photo_url(:thumb) %>
+          </figure>
+          <p><%= message.conversation.profile_a.first_name %>(you)</p>
+        </div>
+      <% else %>
+        <p><%= message.conversation.profile_a.first_name %></p>
+      <% end %>
+    <% else %>
+      <% if message.conversation.profile_b.user_id == current_user.id %>
+        <div>
+          <figure>
+            <%= image_tag message.conversation.profile_b.profile_photo_url(:thumb) %>
+          </figure>
+          <p><%= message.conversation.profile_b.first_name %> (you)</p>
+        </div>
+      <% else %>
+        <p><%= message.conversation.profile_b.first_name %></p>
+      <% end %>
     <% end %>
-  </tbody>
-</table>
+    <p><%= message.content %></p>
+  </div>
+<% end %>
 
-<br>
+<%= render 'form' %>
 
-<%= link_to 'New Message', new_message_path %>
+<% if current_user.id == @conversation.profile_b.user_id %>
+  <%= link_to 'Back to inbox', profile_conversations_path(@conversation.profile_b) %>
+<% else %>
+  <%= link_to "Back to #{@conversation.profile_b.first_name}'s profile", profile_path(@conversation.profile_b) %>
+<% end %>

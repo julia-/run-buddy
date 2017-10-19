@@ -12,6 +12,10 @@ class ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.json
   def show
+    if current_user.present?
+      @active_conversation = Conversation.find_by(profile_a_id: current_user.id, profile_b_id: @profile.user_id)
+    end
+
     @activity = Activity.find(@profile.id)
   end
 

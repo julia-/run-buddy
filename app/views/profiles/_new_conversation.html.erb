@@ -1,0 +1,5 @@
+<%= form_with(model: @conversation, url: profile_conversations_path(@profile), local: true) do |form| %>
+  <div>
+    <%= form.button "Contact #{@profile.first_name}", class: 'btn btn-primary' %>
+  </div>
+<% end %>
