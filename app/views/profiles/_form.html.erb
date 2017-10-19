@@ -31,6 +31,18 @@
     <%= form.text_area :bio, id: :profile_bio %>
   </div>
 
+  <%= form.fields_for :activities do |activities_form| %>
+    <div class="field">
+      <%= activities_form.label :activity, 'What kind of exercise would you like a buddy for?' %>
+      <%= activities_form.select :name, options_for_select(["Walking", "Hiking", "Jogging", "Running", "Sprinting", "Long Distance", "Pram"], selected: "Jogging") %>
+    </div>
+    <div class="field">
+      <%= activities_form.label :skill_level, 'What is your current skill level?' %>
+      <%= activities_form.select :skill_level, options_for_select(["Beginner", "Intermediate", "Advanced", "Expert"], selected: "Beginner") %>
+    </div>
+  <% end %>
+
+
   <div class="field">
     <%= form.label :contact_number %>
     <%= form.text_field :contact_number, id: :profile_contact_number %>
