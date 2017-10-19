@@ -1,31 +1,21 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Messages</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Conversation</th>
-      <th>Content</th>
-      <th>From profile a</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @messages.each do |message| %>
-      <tr>
-        <td><%= message.conversation %></td>
-        <td><%= message.content %></td>
-        <td><%= message.from_profile_a %></td>
-        <td><%= link_to 'Show', message %></td>
-        <td><%= link_to 'Edit', edit_message_path(message) %></td>
-        <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<% @conversation_messages.each do |message| %>
+  <div>
+    <% if message.from_profile_a %>
+      <% if message.conversation.profile_a == current_user %>
+        <p><%= message.conversation.profile_a.first_name %>(you)</p>
+      <% else %>
+        <p><%= message.conversation.profile_a.first_name %></p>
+      <% end %>
+    <% else %>
+      <% if message.conversation.profile_b == current_user %>
+        <p><%= message.conversation.profile_b.first_name %> (you)</p>
+      <% else %>
+        <p><%= message.conversation.profile_b.first_name %></p>
+      <% end %>
     <% end %>
-  </tbody>
-</table>
+    <p><%= message.content %></p>
+  </div>
+<% end %>
 
-<br>
-
-<%= link_to 'New Message', new_message_path %>
+<%= link_to 'New', new_conversation_message_path %>

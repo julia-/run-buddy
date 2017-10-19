@@ -1,5 +1,22 @@
 <h1>New Message</h1>
 
-<%= render 'form', message: @message %>
+<%= form_with(model: @message, url: { controller: 'messages', action: 'create'}, local:true) do |form| %>
+  <% if @message.errors.any? %>
+    <div id="error_explanation">
+      <p>We've been unable to send your message due to <%= pluralize(@message.errors.count, "error") %></p>
 
-<%= link_to 'Back', messages_path %>
+      <ul>
+      <% @message.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div>
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
