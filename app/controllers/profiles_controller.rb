@@ -2,7 +2,7 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
-  
+
   # GET /profiles
   # GET /profiles.json
   def index
@@ -16,7 +16,7 @@ class ProfilesController < ApplicationController
       @active_conversation = Conversation.find_by(profile_a_id: current_user.id, profile_b_id: @profile.user_id)
     end
 
-    @activity = Activity.find(@profile.id)
+    # @activity = Activity.find(@profile.id)
   end
 
   # GET /profiles/new

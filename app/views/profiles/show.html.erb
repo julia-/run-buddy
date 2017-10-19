@@ -15,17 +15,14 @@
   <%= @profile.last_name %>
 </p>
 
-<p>
-  <strong>Your preferred exercise:</strong>
-  <%= @activity.name %>
-  <small><%= link_to 'Change', edit_activity_url %></small>
-</p>
-
-<p>
-  <strong>Your current skill level:</strong>
-  <%= @activity.skill_level%>
-  <small><%= link_to 'Update', edit_activity_url %></small>
-</p>
+<h3>Activities</h3>
+<% @profile.activities.each do |activity| %>
+  <div>
+    <p><strong>Exercise:</strong> <%= activity.name %></p>
+    <p><strong>Level:</strong> <%= activity.skill_level %></p>
+    <%= link_to 'Update', edit_activity_url %>
+  </div>
+<% end %>
 
 <p>
   <strong>Last name:</strong>
