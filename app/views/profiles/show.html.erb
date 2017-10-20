@@ -2,18 +2,28 @@
 
 <section>
   <h2><%= @profile.first_name %> <%= @profile.last_name %></h2>
+  <br>
   <figure>
     <%= image_tag @profile.profile_photo_url(:original) %>
   </figure>
+  <% if current_user.id == @profile.user_id %>
+    <small><%= link_to 'Edit this profile page', edit_profile_path(@profile)%></small>  
+  <% end %>
 </section>
-
+<br>
+<hr />
+<br>
 <section>
-  <h3>About me</h3>
+  <% if current_user.id == @profile.user_id %>
+    <h3>About me</h3>
+  <% else %>
+    <h3>About <%= @profile.first_name %></h3>
+  <% end %>
   <p>
     <%= simple_format(@profile.bio) %>
   </p>
   <p>
-    <strong>Location:</strong> 
+    <strong>Location</strong> 
     <ul>
       <li>Postcode: <%= @profile.postcode %></li>
       <li>Surrounding suburbs:
@@ -24,21 +34,32 @@
   </p>
   <% if current_user.id == @profile.user_id %>
     <p>
-      <strong>Contact number</strong> <%= @profile.contact_number %> <small><em>only you can see this</em></small>
+      <strong>Contact number</strong> 
+      <ul>
+        <li><%= @profile.contact_number %> <small><em>only you can see this</em></small></li>
+      </ul>
     </p>
   <% end %>
 </section>
-
+<br>
+<hr />
+<br>
 <section>
   
-  <h3>My Activities</h3>
+  <% if current_user.id == @profile.user_id %>
+    <h3>My Activities</h3>
+  <% else %>
+    <h3>Activities</h3>
+  <% end %>
   
   <table class="table">
     <tr>
       <th>Exercise</th>
       <th>Skill Level</th>
-      <th></th>
-      <th></th>
+      <% if current_user.id == @profile.user_id %>
+        <th></th>
+        <th></th>
+      <% end %>
     </tr>
     
     <% @profile.activities.each do |activity| %>
@@ -58,18 +79,26 @@
   <% end %>
   
 </section>
-
-<% if current_user.id == @profile.user_id %>
-  <%= link_to 'View Conversations', profile_conversations_path(@profile) %> |
-  <%= link_to 'Edit', edit_profile_path(@profile) %> |
-<% else %>
-  <% if @active_conversation %>
-    <!-- If there is an existing conversation, display link to send a message to the host -->
-    <%= link_to "Contact #{@profile.first_name}", new_conversation_message_path(@active_conversation) %> |
-  <% else %>
-    <!-- Otherwise display button to start a conversation with the host -->
-    <%= render partial: 'new_conversation' %>
-  <% end %>
-<% end %>
+<br>
+<hr />
+<br>
+    <% if current_user.id == @profile.user_id %>
+      <h3>My Conversations</h3>
+      <br>
+      <ul>
+        <li><%= link_to 'View Conversations', profile_conversations_path(@profile) %></li>
+      </ul>
+    <% else %>
+      <% if @active_conversation %>
+        <!-- If there is an existing conversation, display link to send a message to the host -->
+        <li><%= link_to "Contact #{@profile.first_name}", new_conversation_message_path(@active_conversation) %></li> 
+      <% else %>
+        <!-- Otherwise display button to start a conversation with the host -->
+        <%= render partial: 'new_conversation' %>
+      <% end %>
+    <% end %>
+  </ul>
+<br>
+<hr/>
 
 <%= link_to 'Back', profiles_path %>
