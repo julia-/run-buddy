@@ -21,4 +21,3 @@
 
 /public/uploads
 /config/database.yml
-/config/initializers/shrine.rb
