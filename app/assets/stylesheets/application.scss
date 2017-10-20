@@ -1,1 +1,40 @@
 @import "bootstrap";
+
+header {
+  background-color: #BF9FF2;
+  border-bottom: 1.5em solid #685D7E;
+  color: #fff;
+}
+
+.main-heading {
+  position: absolute !important;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  top: 0;
+  left: 0;
+}
+
+header figure {
+  text-align: right;
+}
+
+header nav {
+  // padding: 0.5em 1em;
+}
+
+.nav-menu-options {
+  text-align: right;
+}
+
+header a {
+  text-transform: uppercase;
+  color: #fff;
+}
+
+header a:hover {
+  font-weight: bold;
+  color: #fff;
+}
