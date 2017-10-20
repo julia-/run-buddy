@@ -1,14 +1,16 @@
+<%= render 'header' %>
 <p id="notice"><%= notice %></p>
 
 <h2>Buddies</h2>
 
-<% @profiles.each do |profile| %>
-  <div>
-    <h3><%= profile.first_name %> <%= profile.last_name %></h3>
-    <figure>
-      <%= image_tag profile.profile_photo_url(:thumb) %>
-    </figure>
-  </div>
+<h3>Find buddies in your area</h3>
+
+<%= form_with url: profiles_path, local: true, method: :get do |f| %>
+  <%= f.label :query, 'Search by postcode' %>
+  <%= f.text_field :query %>
+  <%= f.submit 'Search' %>
 <% end %>
+
+<%= render @search_profiles_by_postcode %>
 
 <%= link_to 'New Profile', new_profile_path %>
