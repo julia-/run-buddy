@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
-  before_action :set_profile, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :set_profile, only: [:show, :edit, :update, :destroy]
 
   def index
     @profiles = Profile.all
@@ -8,14 +8,13 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    
     if current_user.present?
       @active_conversation = Conversation.find_by(profile_a_id: current_user.id, profile_b_id: @profile.user_id)
     end
-    
+
     response = HTTParty.get("http://v0.postcodeapi.com.au/suburbs/#{@profile.postcode}.json")
     @suburbs = []
-    response.each { |suburb| @suburbs << suburb['name'] } 
+    response.each { |suburb| @suburbs << suburb['name'] }
 
   end
 
