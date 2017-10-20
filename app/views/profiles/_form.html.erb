@@ -33,7 +33,7 @@
 
   <%= form.fields_for :activities do |activities_form| %>
     <div class="field">
-      <%= activities_form.label :activity, 'What kind of exercise would you like a buddy for?' %>
+      <%= activities_form.label :activity, "Please select one exercise you'd like a buddy for to begin with. Don't worry, you can add more later!" %>
       <%= activities_form.select :name, options_for_select(["Walking", "Hiking", "Jogging", "Running", "Sprinting", "Long Distance", "Pram"], selected: "Jogging") %>
     </div>
     <div class="field">

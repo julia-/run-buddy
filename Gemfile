@@ -38,6 +38,7 @@ gem 'image_processing'
 gem 'mini_magick'
 gem 'shrine'
 gem 'geocoder'
+gem 'httparty'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
