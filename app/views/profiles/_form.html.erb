@@ -1,68 +1,90 @@
-<%= form_with(model: profile, local: true) do |form| %>
-  <% if profile.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+<%= render 'shared/errors', obj: @profile %>
 
-      <ul>
-      <% profile.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<div class = "row">
+  <div class = "col-md-12">
+    <%= form_with(model: profile, local: true) do |form| %>
+      <div class = "form-group">
+        <div class = "control-label col-md-2">
+          <%= form.label :first_name %>
+        </div>
+        <div class = "col-md-8">
+          <%= form.text_field :first_name, id: :profile_first_name, class: "form-control", placeholder: "Enter your first name", autofocus: true %>
+        </div>
+      </div>
+      <div class = "form-group">
+        <div class = "control-label col-md-2">
+          <%= form.label :last_name %>
+        </div>
+      <div class = "col-md-8">
+          <%= form.text_field :last_name, id: :profile_last_name, class: "form-control", placeholder: "Enter your last name" %>
+        </div>
+      </div>
+      <div class = "form-group">
+        <div class = "control-label col-md-2">
+          <%= form.label :postcode %>
+        </div>
+      <div class = "col-md-8">
+          <%= form.text_field :postcode, id: :profile_postcode, class: "form-control", placeholder: "eg. 3000" %>
+        </div>
+      </div>
+      <div class = "form-group">
+        <div class = "control-label col-md-2">
+          <%= form.label :bio %>
+        </div>
+      <div class = "col-md-8">
+          <%= form.text_area :bio, rows: 5, id: :profile_postcode, class: "form-control", placeholder: "Enter some details about yourself!" %>
+        </div>
+      </div>
+      
+    <%= form.fields_for :activities do |activities_form| %>
+      <div class="form-group">
+        <div class = "col-md-12">
+          <%= activities_form.label :activity, "Please select one exercise you'd like a buddy for to begin with. Don't worry, you can add more later!" %>
+        </div>
+        <div class="dropdown col-md-2">
+        <%= activities_form.select :name, options_for_select(["Walking", "Hiking", "Jogging", "Running", "Sprinting", "Long Distance", "Pram"], selected: "Jogging") %>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class = "col-md-12">
+          <%= activities_form.label :skill_level, 'What is your current skill level?' %>
+        </div>
+        <div class="dropdown col-md-2">
+          <%= activities_form.select :skill_level, options_for_select(["Beginner", "Intermediate", "Advanced", "Expert"], selected: "Beginner") %>
+        </div>
+        <% end %>
+      </div>
+
+    <div class = "form-group">
+      <div class = "control-label col-md-2">
+        <%= form.label :contact_number %>
+      </div>
+    <div class = "col-md-8">
+        <%= form.text_field :contact_number, id: :profile_contact_number, class: "form-control", placeholder: "e.g 0411 111 111" %>
+      </div>
+    </div>  
+    
+    <div class = "form-group">
+      <div class = "control-label col-md-2">
+        <%= form.label :profile_photo %>
+      </div>
+      <div class = "col-md-8">
+      <%= form.file_field :profile_photo, id: :profile_profile_photo %>
+      </div>
+    </div>  
+
+    <% if profile.profile_photo_data? %>
+      <div class="field">
+        <%= image_tag profile.profile_photo_url(:thumb) %>
+      </div>
+      <div class="field">
+        Remove attachment: <%= form.check_box :remove_image %>
+      </div>
+    <% end %>
+      
+    <div class = "form-group">
+      <div class = "col-md-offset-2 col-md-10">
+        <%= form.submit class: "btn btn-primary btn-lg btn-xlarge" %>
+      </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :first_name %>
-    <%= form.text_field :first_name, id: :profile_first_name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :last_name %>
-    <%= form.text_field :last_name, id: :profile_last_name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :postcode %>
-    <%= form.text_field :postcode, id: :profile_postcode %>
-  </div>
-
-  <div class="field">
-    <%= form.label :bio %>
-    <%= form.text_area :bio, id: :profile_bio %>
-  </div>
-
-  <%= form.fields_for :activities do |activities_form| %>
-    <div class="field">
-      <%= activities_form.label :activity, "Please select one exercise you'd like a buddy for to begin with. Don't worry, you can add more later!" %>
-      <%= activities_form.select :name, options_for_select(["Walking", "Hiking", "Jogging", "Running", "Sprinting", "Long Distance", "Pram"], selected: "Jogging") %>
-    </div>
-    <div class="field">
-      <%= activities_form.label :skill_level, 'What is your current skill level?' %>
-      <%= activities_form.select :skill_level, options_for_select(["Beginner", "Intermediate", "Advanced", "Expert"], selected: "Beginner") %>
-    </div>
-  <% end %>
-
-
-  <div class="field">
-    <%= form.label :contact_number %>
-    <%= form.text_field :contact_number, id: :profile_contact_number %>
-  </div>
-
-  <div class="field">
-    <%= form.label :profile_photo %>
-    <%= form.file_field :profile_photo, id: :profile_profile_photo %>
-  </div>
-
-  <% if profile.profile_photo_data? %>
-    <div class="field">
-      <%= image_tag profile.profile_photo_url(:thumb) %>
-    </div>
-    <div class="field">
-      Remove attachment: <%= form.check_box :remove_image %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>
