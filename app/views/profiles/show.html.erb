@@ -1,4 +1,5 @@
 <p id="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
 
 <section>
   <h2><%= @profile.first_name %> <%= @profile.last_name %></h2>
@@ -13,14 +14,14 @@
     <%= simple_format(@profile.bio) %>
   </p>
   <p>
-    <strong>Location:</strong> 
+    <strong>Location:</strong>
     <ul>
       <li>Postcode: <%= @profile.postcode %></li>
       <li>Surrounding suburbs:
         <%= @suburbs.join(", ") %>
       </li>
-    </ul> 
-    
+    </ul>
+
   </p>
   <% if current_user.id == @profile.user_id %>
     <p>
@@ -30,9 +31,9 @@
 </section>
 
 <section>
-  
+
   <h3>My Activities</h3>
-  
+
   <table class="table">
     <tr>
       <th>Exercise</th>
@@ -40,7 +41,7 @@
       <th></th>
       <th></th>
     </tr>
-    
+
     <% @profile.activities.each do |activity| %>
       <tr>
         <td><%= activity.name %></td>
@@ -56,7 +57,7 @@
   <% if current_user.id == @profile.user_id %>
     <%= link_to 'Add Additional Activities', new_activity_path, class: "btn btn-primary btn-lg" %>
   <% end %>
-  
+
 </section>
 
 <% if current_user.id == @profile.user_id %>
