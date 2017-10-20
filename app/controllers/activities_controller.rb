@@ -25,10 +25,11 @@ class ActivitiesController < ApplicationController
   # POST /activities.json
   def create
     @activity = Activity.new(activity_params)
+    @activity.profile_id = current_user.profile.id
 
     respond_to do |format|
       if @activity.save
-        format.html { redirect_to @activity, notice: 'Activity was successfully created.' }
+        format.html { redirect_to profile_path(@activity.profile_id), notice: 'Activity was successfully deleted.' }
         format.json { render :show, status: :created, location: @activity }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class ActivitiesController < ApplicationController
   def update
     respond_to do |format|
       if @activity.update(activity_params)
-        format.html { redirect_to profile_path, notice: 'Activity was successfully updated.' }
+        format.html { redirect_to profile_path(@activity.profile_id), notice: 'Activity was successfully updated.' }
         format.json { render :show, status: :ok, location: profile_path }
       else
         format.html { render :edit }
@@ -56,7 +57,7 @@ class ActivitiesController < ApplicationController
   def destroy
     @activity.destroy
     respond_to do |format|
-      format.html { redirect_to activities_url, notice: 'Activity was successfully destroyed.' }
+      format.html { redirect_to profile_path(@activity.profile_id), notice: 'Activity was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +70,6 @@ class ActivitiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def activity_params
-      params.require(:activity).permit(:name, :profile_id, :skill_level)
+      params.require(:activity).permit(:name, :skill_level)
     end
 end
