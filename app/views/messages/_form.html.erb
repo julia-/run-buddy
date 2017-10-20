@@ -1,20 +1,30 @@
-<%= form_with(model: @message, url: { controller: 'messages', action: 'create'}, local: false) do |form| %>
-  <% if @message.errors.any? %>
-    <div id="error_explanation">
-      <p>We've been unable to send your message due to <%= pluralize(@message.errors.count, "error") %></p>
+<div class = "row">
+  <div class = "col-md-12">
+    <%= form_with(model: @message, url: { controller: 'messages', action: 'create'}, local: false) do |form| %>
+      <% if @message.errors.any? %>
+        <div id="error_explanation">
+          <p>We've been unable to send your message due to <%= pluralize(@message.errors.count, "error") %></p>
 
-      <ul>
-      <% @message.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+          <ul>
+          <% @message.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
-  <div>
-    <%= form.label :content, 'Message' %>
-    <%= form.text_area :content %>
+      <div class = "form-group">
+        <div class = "control-label col-md-2">
+          <%= form.label :content, 'Message' %>
+        </div>
+        <div class = "col-md-8">
+        <%= form.text_area :content, rows: 5, class: "form-control", placeholder: "Enter your message", autofocus: true  %>
+        </div>
+      </div>
+      <div class = "form-group">
+        <div class = "col-md-offset-2 col-md-10">
+          <%= form.submit class: "btn btn-primary btn-lg" %>
+        </div>
+      </div>
+    <% end %>
   </div>
-  <div>
-    <%= form.button 'Send' %>
-  </div>
-<% end %>
+</div>
